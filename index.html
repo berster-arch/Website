@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+  <title>Siaga — Sistem Informasi Pemadam Kebakaran</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#beranda" aria-label="Siaga, beranda">
+        <span class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 2.5c.6 3.2-1.1 4.4-2.5 6.1-1.1 1.3-1.6 2.5-1.1 4.1.4-1.1 1.2-1.8 2.2-2.4-.2 2.1 1.5 3.1 1.5 5.2 0 1.4-.8 2.4-2 2.8-2.4-.5-4.1-2.7-4.1-5.2 0-2.2 1-3.8 2.4-5.4C7.1 9 5 12.3 5 15.2 5 19.2 8.1 22 12 22s7-2.8 7-6.8c0-4.7-3.3-7.1-5.8-12.7Z"/></svg></span>
+        <span class="brand-name">siaga<span>.</span><small>PEMADAM KEBAKARAN</small></span>
+      </a>
+
+      <div class="sidebar-label">MENU UTAMA</div>
+      <nav class="main-nav" aria-label="Navigasi utama">
+        <a class="nav-link active" href="#beranda" data-page="beranda">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1V10Z"/></svg>
+          <span>Halaman Utama</span>
+        </a>
+        <a class="nav-link" href="#pendaftaran" data-page="pendaftaran">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/><circle cx="12" cy="12" r="9"/></svg>
+          <span>Pendaftaran</span>
+          <span class="nav-count" id="nav-pending-count">0</span>
+        </a>
+        <a class="nav-link" href="#antrean" data-page="antrean">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="8" cy="6" r="1"/><circle cx="8" cy="12" r="1"/><circle cx="8" cy="18" r="1"/></svg>
+          <span>Antrean Laporan</span>
+        </a>
+        <a class="nav-link" href="#admin" data-page="admin">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg>
+          <span>Admin</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="emergency-card">
+          <div class="emergency-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v4m7.07-.07-2.83 2.83M22 13h-4M5 5l2.83 2.83M2 13h4"/><path d="M7 18a7 7 0 1 1 10 0l-1 1H8l-1-1Z"/><path d="M9 22h6"/></svg></div>
+          <strong>Darurat kebakaran?</strong>
+          <span>Hubungi petugas segera.</span>
+          <a href="tel:113" class="emergency-call"><span>Telepon 113</span><span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="sidebar-footer"><span class="online-dot"></span> Sistem beroperasi <span class="footer-version">v1.0</span></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="icon-button mobile-menu" id="menu-toggle" aria-label="Buka menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div class="breadcrumb"><span>Dashboard</span><span class="breadcrumb-slash">/</span><strong id="breadcrumb-current">Halaman Utama</strong></div>
+        <div class="topbar-right">
+          <span class="today-label" id="today-label"></span>
+          <span class="topbar-divider"></span>
+          <span class="avatar">AD</span>
+          <div class="user-meta"><strong>Administrator</strong><span>Petugas Damkar</span></div>
+        </div>
+      </header>
+
+      <div class="page-wrap">
+        <section class="page-view active" id="page-beranda">
+          <div class="welcome-row">
+            <div>
+              <div class="eyebrow"><span class="live-pulse"></span> PUSAT KOMANDO SIAGA</div>
+              <h1>Selamat pagi, Admin <span class="wave">✳</span></h1>
+              <p class="page-subtitle">Pantau laporan dan respons keadaan darurat di wilayah Anda.</p>
+            </div>
+            <a href="#pendaftaran" class="button button-primary"><span class="button-plus">+</span> Buat Laporan</a>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card">
+              <div class="stat-top"><span class="stat-label">Total Laporan</span><span class="stat-icon orange"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l4 4v14H4V3h4Z"/><path d="M8 3v5h8V3M8 13h8M8 17h5"/></svg></span></div>
+              <div class="stat-value" id="stat-total">0</div><div class="stat-foot">Seluruh laporan masuk</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top"><span class="stat-label">Menunggu Respons</span><span class="stat-icon yellow"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span></div>
+              <div class="stat-value" id="stat-pending">0</div><div class="stat-foot">Perlu segera ditindaklanjuti</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top"><span class="stat-label">Dalam Penanganan</span><span class="stat-icon blue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19h16M6 16l4-5 3 2 5-7"/><path d="M14 6h4v4"/></svg></span></div>
+              <div class="stat-value" id="stat-progress">0</div><div class="stat-foot">Tim sedang menuju lokasi</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top"><span class="stat-label">Selesai Ditangani</span><span class="stat-icon green"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></span></div>
+              <div class="stat-value" id="stat-completed">0</div><div class="stat-foot">Laporan telah diselesaikan</div>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="panel recent-panel">
+              <div class="panel-heading"><div><h2>Laporan Terbaru</h2><p>Aktivitas laporan kebakaran terkini</p></div><a class="text-link" href="#antrean">Lihat semua <span>→</span></a></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>PELAPOR & LOKASI</th><th>JENIS KEJADIAN</th><th>WAKTU</th><th>STATUS</th></tr></thead>
+                  <tbody id="recent-table"></tbody>
+                </table>
+                <div class="empty-state compact-empty" id="recent-empty"><span class="empty-icon">✓</span><strong>Belum ada laporan</strong><span>Laporan baru akan tampil di sini.</span></div>
+              </div>
+            </section>
+            <aside class="panel response-panel">
+              <div class="panel-heading"><div><h2>Respons Cepat</h2><p>Akses tindakan utama</p></div></div>
+              <a class="quick-action" href="#pendaftaran"><span class="quick-icon red"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><span><strong>Daftarkan laporan</strong><small>Catat kejadian baru</small></span><span class="quick-arrow">↗</span></a>
+              <a class="quick-action" href="#antrean"><span class="quick-icon amber"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span><span><strong>Periksa antrean</strong><small>Lihat laporan menunggu</small></span><span class="quick-arrow">↗</span></a>
+              <div class="response-note"><span class="note-bulb">✦</span><p>Setiap detik berarti. Pastikan laporan darurat ditangani secepat mungkin.</p></div>
+            </aside>
+          </div>
+          <footer class="page-footer">© 2025 SIAGA — Sistem Informasi Pemadam Kebakaran <span>•</span> Melayani dengan sigap</footer>
+        </section>
+
+        <section class="page-view" id="page-pendaftaran">
+          <div class="page-heading-row">
+            <div><div class="eyebrow">LAPORAN KEJADIAN</div><h1>Pendaftaran Laporan</h1><p class="page-subtitle">Masukkan informasi kejadian kebakaran untuk segera diteruskan ke petugas.</p></div>
+          </div>
+          <div class="form-layout">
+            <form id="report-form" class="panel report-form" novalidate>
+              <div class="form-section-heading"><span class="section-number">01</span><div><h2>Informasi Pelapor</h2><p>Kontak yang dapat dihubungi petugas</p></div></div>
+              <div class="form-grid">
+                <label class="field"><span>Nama pelapor <b>*</b></span><input name="reporter" type="text" placeholder="Contoh: Budi Santoso" required maxlength="80"><small class="field-error"></small></label>
+                <label class="field"><span>Nomor telepon <b>*</b></span><input name="phone" type="tel" placeholder="Contoh: 0812 3456 7890" required maxlength="20"><small class="field-error"></small></label>
+              </div>
+              <div class="form-section-heading second-section"><span class="section-number">02</span><div><h2>Detail Kejadian</h2><p>Informasi penting untuk respons yang tepat</p></div></div>
+              <div class="form-grid">
+                <label class="field full-field"><span>Lokasi kejadian <b>*</b></span><input name="location" type="text" placeholder="Alamat lengkap, patokan, kelurahan/kecamatan" required maxlength="180"><small class="field-error"></small></label>
+                <label class="field"><span>Jenis kejadian <b>*</b></span><select name="type" required><option value="">Pilih jenis kejadian</option><option>Kebakaran rumah</option><option>Kebakaran gedung</option><option>Kebakaran kendaraan</option><option>Kebakaran lahan</option><option>Kebakaran industri</option><option>Lainnya</option></select><small class="field-error"></small></label>
+                <label class="field"><span>Tingkat urgensi</span><select name="priority"><option value="Sedang">Sedang</option><option value="Tinggi">Tinggi</option><option value="Darurat">Darurat</option></select></label>
+                <label class="field full-field"><span>Keterangan tambahan</span><textarea name="description" rows="4" maxlength="500" placeholder="Jelaskan kondisi kejadian, jumlah orang terdampak, atau informasi penting lainnya..."></textarea><small class="field-hint">Maksimal 500 karakter</small></label>
+              </div>
+              <div class="form-notice"><span>ⓘ</span><p>Pastikan nomor telepon aktif dan lokasi kejadian ditulis dengan jelas agar petugas dapat segera menghubungi Anda.</p></div>
+              <div class="form-actions"><button type="reset" class="button button-secondary">Kosongkan</button><button type="submit" class="button button-primary"><span>Kirim Laporan</span><span>→</span></button></div>
+            </form>
+            <aside class="form-aside">
+              <div class="aside-emergency panel"><span class="aside-fire">✳</span><div class="eyebrow">BUTUH BANTUAN SEGERA?</div><h3>Hubungi layanan darurat</h3><p>Jika situasi mengancam keselamatan, jangan menunggu. Hubungi pemadam kebakaran secara langsung.</p><a href="tel:113">113 <span>↗</span></a><small>Layanan darurat pemadam kebakaran</small></div>
+              <div class="aside-steps panel"><h3>Setelah laporan dikirim</h3><div class="step-item"><span>1</span><p><strong>Laporan diterima</strong><small>Data kejadian masuk ke sistem</small></p></div><div class="step-item"><span>2</span><p><strong>Petugas menghubungi</strong><small>Pastikan telepon Anda aktif</small></p></div><div class="step-item"><span>3</span><p><strong>Tim menuju lokasi</strong><small>Petugas menangani kejadian</small></p></div></div>
+            </aside>
+          </div>
+          <footer class="page-footer">© 2025 SIAGA — Sistem Informasi Pemadam Kebakaran</footer>
+        </section>
+
+        <section class="page-view" id="page-antrean">
+          <div class="page-heading-row queue-heading">
+            <div><div class="eyebrow">PEMANTAUAN LAPORAN</div><h1>Antrean Laporan</h1><p class="page-subtitle">Pantau status laporan yang masuk dan sedang ditangani.</p></div>
+            <a href="#pendaftaran" class="button button-primary"><span class="button-plus">+</span> Buat Laporan</a>
+          </div>
+          <div class="queue-summary">
+            <div class="queue-chip"><span class="queue-dot waiting"></span>Menunggu <strong id="queue-waiting-count">0</strong></div>
+            <div class="queue-chip"><span class="queue-dot handling"></span>Ditangani <strong id="queue-progress-count">0</strong></div>
+            <div class="queue-chip"><span class="queue-dot done"></span>Selesai <strong id="queue-completed-count">0</strong></div>
+          </div>
+          <section class="panel queue-panel">
+            <div class="queue-toolbar"><div><h2>Semua Laporan</h2><p id="queue-result-count">0 laporan tercatat</p></div><label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="queue-search" type="search" placeholder="Cari laporan..." aria-label="Cari laporan"></label></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>ID LAPORAN</th><th>PELAPOR & LOKASI</th><th>JENIS</th><th>WAKTU</th><th>STATUS</th><th>PRIORITAS</th></tr></thead>
+                <tbody id="queue-table"></tbody>
+              </table>
+              <div class="empty-state" id="queue-empty"><span class="empty-icon">⌕</span><strong>Belum ada antrean</strong><span>Laporan yang didaftarkan akan muncul di sini.</span><a href="#pendaftaran" class="text-link">Daftarkan laporan pertama →</a></div>
+            </div>
+          </section>
+          <footer class="page-footer">© 2025 SIAGA — Sistem Informasi Pemadam Kebakaran</footer>
+        </section>
+
+        <section class="page-view" id="page-admin">
+          <div class="page-heading-row queue-heading">
+            <div><div class="eyebrow">PANEL PENGELOLAAN</div><h1>Administrasi Laporan</h1><p class="page-subtitle">Kelola, perbarui status, dan hapus laporan yang tercatat.</p></div>
+            <div class="admin-heading-actions"><a href="#pendaftaran" class="button button-primary"><span class="button-plus">+</span> Buat Laporan</a></div>
+          </div>
+          <div class="admin-summary">
+            <article class="admin-stat panel"><span class="admin-stat-icon orange">▤</span><div><small>Total laporan</small><strong id="admin-total">0</strong></div></article>
+            <article class="admin-stat panel"><span class="admin-stat-icon yellow">◷</span><div><small>Menunggu</small><strong id="admin-pending">0</strong></div></article>
+            <article class="admin-stat panel"><span class="admin-stat-icon blue">↗</span><div><small>Ditangani</small><strong id="admin-progress">0</strong></div></article>
+            <article class="admin-stat panel"><span class="admin-stat-icon green">✓</span><div><small>Selesai</small><strong id="admin-completed">0</strong></div></article>
+          </div>
+          <section class="panel admin-panel">
+            <div class="queue-toolbar"><div><h2>Data Laporan</h2><p>Perubahan status tersimpan otomatis</p></div><label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="admin-search" type="search" placeholder="Cari laporan..." aria-label="Cari laporan"></label></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>ID LAPORAN</th><th>PELAPOR & LOKASI</th><th>JENIS</th><th>WAKTU</th><th>STATUS</th><th>AKSI</th></tr></thead>
+                <tbody id="admin-table"></tbody>
+              </table>
+              <div class="empty-state" id="admin-empty"><span class="empty-icon">▤</span><strong>Belum ada data laporan</strong><span>Semua laporan baru akan dikelola dari halaman ini.</span><a href="#pendaftaran" class="text-link">Buat laporan baru →</a></div>
+            </div>
+          </section>
+          <footer class="page-footer">© 2025 SIAGA — Sistem Informasi Pemadam Kebakaran</footer>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog class="edit-dialog" id="edit-dialog" aria-labelledby="edit-title">
+    <form id="edit-form" method="dialog">
+      <div class="dialog-heading"><div><div class="eyebrow">PERBARUI DATA</div><h2 id="edit-title">Edit Laporan</h2></div><button type="button" class="dialog-close" id="dialog-close" aria-label="Tutup">×</button></div>
+      <input type="hidden" name="id">
+      <label class="field"><span>Nama pelapor <b>*</b></span><input name="reporter" type="text" required maxlength="80"></label>
+      <label class="field"><span>Nomor telepon <b>*</b></span><input name="phone" type="tel" required maxlength="20"></label>
+      <label class="field"><span>Lokasi kejadian <b>*</b></span><input name="location" type="text" required maxlength="180"></label>
+      <div class="form-grid">
+        <label class="field"><span>Jenis kejadian <b>*</b></span><select name="type" required><option>Kebakaran rumah</option><option>Kebakaran gedung</option><option>Kebakaran kendaraan</option><option>Kebakaran lahan</option><option>Kebakaran industri</option><option>Lainnya</option></select></label>
+        <label class="field"><span>Prioritas</span><select name="priority"><option>Sedang</option><option>Tinggi</option><option>Darurat</option></select></label>
+      </div>
+      <label class="field"><span>Status penanganan</span><select name="status"><option value="Menunggu">Menunggu</option><option value="Ditangani">Ditangani</option><option value="Selesai">Selesai</option></select></label>
+      <label class="field"><span>Keterangan tambahan</span><textarea name="description" rows="3" maxlength="500"></textarea></label>
+      <div class="dialog-actions"><button type="button" class="button button-secondary" id="dialog-cancel">Batal</button><button type="submit" class="button button-primary">Simpan Perubahan</button></div>
+    </form>
+  </dialog>
+</body>
+</html>
